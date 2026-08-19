@@ -3,238 +3,993 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PALANCA — Multiplicar capacidad</title>
-<meta name="description" content="Sistemas que multiplican la capacidad operativa de tu empresa. Sin planillas, sin copiar y pegar, sin seguimiento manual.">
+<title>CORTEX — CRM y automatización comercial en GoHighLevel</title>
+<meta name="description" content="Implemento tu proceso comercial real en GoHighLevel: pipeline, WhatsApp, automatizaciones e IA conversacional. Para operaciones con flujo de leads en LATAM.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap">
-<link rel="stylesheet" href="styles.css">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%2308090a'/><circle cx='16' cy='16' r='6' fill='%23c5f72e'/></svg>">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #08090a;
+  --bg-alt: #0c0e0d;
+  --bg-elevated: #131615;
+  --text: #f0f0ea;
+  --text-muted: #7a7e78;
+  --text-dim: #4a4d48;
+  --accent: #c5f72e;
+  --accent-dim: rgba(197, 247, 46, 0.12);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --mono: 'JetBrains Mono', 'Courier New', monospace;
+  --sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --container: 1400px;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  font-weight: 400;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 100;
+  mix-blend-mode: overlay;
+}
+
+::selection { background: var(--accent); color: var(--bg); }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; background: none; border: none; color: inherit; cursor: pointer; }
+
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+@media (min-width: 768px) { .container { padding: 0 2.5rem; } }
+@media (min-width: 1024px) { .container { padding: 0 4rem; } }
+
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  padding: 1.1rem 0;
+  background: rgba(8, 9, 10, 0.6);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+}
+.site-header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+.brand {
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.brand-dot {
+  width: 8px; height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--accent);
+  animation: pulse 2.5s ease-in-out infinite;
+  flex-shrink: 0;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.7); }
+}
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.header-link {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  transition: color 0.3s var(--ease);
+}
+.header-link:hover { color: var(--text); }
+.header-cta {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  text-transform: uppercase;
+  transition: opacity 0.3s var(--ease);
+}
+.header-cta:hover { opacity: 0.7; }
+@media (max-width: 768px) {
+  .header-nav .header-link { display: none; }
+}
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-end;
+  padding: 8rem 0 5rem;
+  position: relative;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3.5rem;
+  width: 100%;
+}
+@media (min-width: 1024px) {
+  .hero-grid {
+    grid-template-columns: 7fr 3fr;
+    gap: 4rem;
+    align-items: end;
+  }
+}
+.hero-tag {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.hero-tag .dot { color: var(--accent); }
+.hero-headline {
+  font-family: var(--sans);
+  font-size: clamp(2.6rem, 8.5vw, 8rem);
+  font-weight: 800;
+  line-height: 0.96;
+  letter-spacing: -0.04em;
+  margin-bottom: 2.5rem;
+}
+.hero-headline .line {
+  display: block;
+  opacity: 0;
+  transform: translateY(60px);
+  animation: heroLine 1s var(--ease) forwards;
+}
+.hero-headline .line:nth-child(1) { animation-delay: 0.15s; }
+.hero-headline .line:nth-child(2) { animation-delay: 0.28s; }
+.hero-headline .line:nth-child(3) { animation-delay: 0.41s; }
+.hero-headline .line:nth-child(4) { animation-delay: 0.54s; }
+.hero-headline .line:nth-child(5) { animation-delay: 0.72s; }
+.hero-headline .line-accent {
+  color: var(--accent);
+  font-style: italic;
+  font-weight: 500;
+}
+@keyframes heroLine {
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-sub {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  max-width: 560px;
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: fadeUp 1s var(--ease) 0.9s forwards;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-cta-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 1s var(--ease) 1.05s forwards;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  background: var(--accent);
+  color: var(--bg);
+  padding: 1rem 1.6rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  transition: all 0.35s var(--ease);
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary svg { width: 14px; height: 14px; flex-shrink: 0; }
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(197, 247, 46, 0.25);
+}
+.btn-large { padding: 1.25rem 2rem; font-size: 0.85rem; }
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  padding: 1rem 0;
+  transition: color 0.3s var(--ease);
+}
+.btn-secondary:hover { color: var(--accent); }
+.btn-secondary .arrow { transition: transform 0.3s var(--ease); }
+.btn-secondary:hover .arrow { transform: translateY(4px); }
+
+.hero-meta {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  border-left: 1px solid var(--border);
+  padding-left: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 1s var(--ease) 1.2s forwards;
+}
+@media (max-width: 1023px) {
+  .hero-meta {
+    border-left: none;
+    border-top: 1px solid var(--border);
+    padding-left: 0;
+    padding-top: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+}
+.meta-item { margin-bottom: 1.25rem; }
+@media (max-width: 1023px) { .meta-item { margin-bottom: 0; } }
+.meta-label {
+  display: block;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 0.4rem;
+}
+.meta-value {
+  display: block;
+  color: var(--text);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+.scroll-line {
+  width: 40px; height: 1px;
+  background: var(--border-strong);
+  position: relative;
+  overflow: hidden;
+}
+.scroll-line::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 50%; height: 100%;
+  background: var(--accent);
+  animation: scrollLine 2.5s var(--ease) infinite;
+}
+@keyframes scrollLine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+@media (max-width: 768px) { .scroll-indicator { display: none; } }
+
+.section {
+  padding: 8rem 0;
+  position: relative;
+  border-top: 1px solid var(--border);
+}
+@media (max-width: 768px) { .section { padding: 5rem 0; } }
+.section-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+@media (min-width: 1024px) {
+  .section-grid {
+    grid-template-columns: 3fr 7fr;
+    gap: 4rem;
+  }
+}
+.section-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  position: sticky;
+  top: 6rem;
+  align-self: start;
+}
+@media (max-width: 1023px) {
+  .section-meta { flex-direction: row; align-items: center; gap: 1rem; }
+}
+.section-tag {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+}
+.section-tag-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.section-headline {
+  font-family: var(--sans);
+  font-size: clamp(1.7rem, 4.5vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 2rem;
+}
+.section-intro {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  margin-bottom: 3rem;
+  max-width: 540px;
+}
+.section-body {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--text);
+  max-width: 620px;
+}
+.section-body p { margin-bottom: 1.25rem; color: var(--text-muted); }
+.section-body p.emphasis { color: var(--text); }
+.section-body p.quote {
+  font-style: italic;
+  color: var(--text);
+  border-left: 2px solid var(--accent);
+  padding-left: 1.5rem;
+  margin-top: 2rem;
+  font-size: 1.15rem;
+}
+
+.funnel-principles {
+  list-style: none;
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+.funnel-principles li {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 0.85rem;
+  line-height: 1.55;
+}
+.funnel-principles li:last-child { margin-bottom: 0; }
+.funnel-principles li::before {
+  content: '→ ';
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.steps { list-style: none; margin-top: 1rem; }
+.step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2rem;
+  padding: 2.5rem 0;
+  border-top: 1px solid var(--border);
+  position: relative;
+  transition: padding-left 0.4s var(--ease);
+}
+.step:last-child { border-bottom: 1px solid var(--border); }
+.step:hover { padding-left: 1rem; }
+.step::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0;
+  width: 2px; height: 0;
+  background: var(--accent);
+  transition: height 0.4s var(--ease);
+}
+.step:hover::before { height: 100%; }
+.step-num {
+  font-family: var(--mono);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  min-width: 40px;
+}
+.step-title {
+  font-family: var(--sans);
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.6rem;
+  line-height: 1.1;
+}
+.step-desc {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  max-width: 540px;
+}
+@media (max-width: 640px) {
+  .step { grid-template-columns: 1fr; gap: 0.5rem; padding: 2rem 0; }
+  .step:hover { padding-left: 0; }
+}
+
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 1.75rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-alt);
+}
+.marquee-track {
+  display: inline-block;
+  animation: marquee 40s linear infinite;
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
+.marquee-track span { margin-right: 2rem; }
+.marquee-track .accent { color: var(--accent); }
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+@media (min-width: 768px) {
+  .results-grid { grid-template-columns: repeat(4, 1fr); }
+}
+.result-card {
+  padding: 2rem 1.5rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  transition: all 0.4s var(--ease);
+}
+.result-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+  background: var(--bg-elevated);
+}
+.result-num {
+  font-family: var(--sans);
+  font-size: clamp(2.4rem, 5vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+.result-unit {
+  font-size: 0.5em;
+  color: var(--accent);
+  font-weight: 500;
+  margin-left: 0.15em;
+}
+.result-label {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+.results-note {
+  margin-top: 2.5rem;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  font-style: italic;
+  max-width: 600px;
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+@media (min-width: 768px) {
+  .filter-grid { grid-template-columns: 1fr 1fr; gap: 3rem; }
+}
+.filter-title {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--accent-dim);
+}
+.filter-title-no { color: var(--text-dim); border-bottom-color: var(--border); }
+.filter-list { list-style: none; }
+.filter-list li {
+  position: relative;
+  padding: 1rem 0 1rem 2rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 1rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+.filter-list li::before {
+  content: '+';
+  position: absolute;
+  left: 0; top: 1rem;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-weight: 700;
+}
+.filter-list-no li::before { content: '−'; color: var(--text-dim); }
+
+.final-cta {
+  padding: 10rem 0;
+  text-align: left;
+}
+@media (max-width: 768px) { .final-cta { padding: 6rem 0; } }
+.final-grid { max-width: 1000px; }
+.final-grid .section-tag {
+  font-size: 0.85rem;
+  display: block;
+  margin-bottom: 2rem;
+}
+.final-headline {
+  font-family: var(--sans);
+  font-size: clamp(2rem, 5.5vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  margin-bottom: 2rem;
+}
+.final-accent {
+  color: var(--accent);
+  font-style: italic;
+  font-weight: 500;
+}
+.final-sub {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  margin-bottom: 3rem;
+  max-width: 540px;
+  line-height: 1.6;
+}
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 3rem 0;
+  background: var(--bg-alt);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+@media (min-width: 768px) {
+  .footer-grid { grid-template-columns: auto 1fr auto; gap: 3rem; }
+}
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--text);
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+.footer-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  font-size: 0.75rem;
+}
+.footer-meta span { position: relative; }
+.footer-meta span:not(:last-child)::after {
+  content: '·';
+  position: absolute;
+  right: -1rem;
+  color: var(--text-dim);
+}
+.footer-copy { font-size: 0.75rem; color: var(--text-dim); }
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s var(--ease), transform 1s var(--ease);
+}
+[data-reveal].in-view { opacity: 1; transform: translateY(0); }
+[data-reveal][data-delay="1"] { transition-delay: 0.1s; }
+[data-reveal][data-delay="2"] { transition-delay: 0.2s; }
+[data-reveal][data-delay="3"] { transition-delay: 0.3s; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  [data-reveal] { opacity: 1; transform: none; }
+}
+</style>
 </head>
 <body>
 
-<div class="grain"></div>
-
-<nav id="nav">
-  <div class="nav-inner">
-    <div class="nav-logo">PALANCA</div>
-    <a href="https://wa.me/541123662563" target="_blank" class="nav-cta">Hablemos</a>
+<header class="site-header">
+  <div class="container">
+    <a href="#top" class="brand">
+      <span class="brand-dot"></span>
+      CORTEX
+    </a>
+    <nav class="header-nav">
+      <a href="#metodo" class="header-link">Método</a>
+      <a href="#resultados" class="header-link">Resultados</a>
+      <a href="#filtro" class="header-link">Filtro</a>
+      <a href="https://wa.me/5491123662563?text=Hola%20Nahuel%2C%20vi%20tu%20sitio%20y%20quiero%20hablar%20de%20mi%20proceso%20comercial" class="header-cta" target="_blank" rel="noopener">WhatsApp ↗</a>
+    </nav>
   </div>
-</nav>
+</header>
 
-<!-- SECCIÓN 1 — HERO -->
-<section class="s-hero">
-  <div class="hero-inner">
-    <span class="eyebrow reveal">// sistemas de apalancamiento operativo</span>
-    <h1 class="hero-title">
-      <span class="reveal-word">PALANCA</span>
-    </h1>
-    <p class="hero-sub reveal">Tu empresa. <span>Más capacidad.</span></p>
+<main>
 
-    <div class="lever-rig reveal" aria-hidden="true">
-      <svg viewBox="0 0 900 260" class="lever-svg">
-        <line x1="60" y1="230" x2="840" y2="230" class="lever-ground"></line>
-        <polygon points="450,230 420,180 480,180" class="lever-fulcrum"></polygon>
-        <g class="lever-bar-group">
-          <line x1="140" y1="180" x2="760" y2="180" class="lever-bar"></line>
-          <circle cx="140" cy="180" r="16" class="lever-weight-in"></circle>
-          <circle cx="760" cy="180" r="34" class="lever-weight-out"></circle>
-        </g>
-        <text x="140" y="150" class="lever-label lever-label-in">esfuerzo</text>
-        <text x="760" y="130" class="lever-label lever-label-out">capacidad</text>
-      </svg>
-    </div>
-
-    <div class="scroll-cue reveal">
-      <span>desplazate</span>
-      <div class="scroll-line"></div>
-    </div>
-  </div>
-</section>
-
-<!-- SECCIÓN 2 — 60 → 5 -->
-<section class="s-metric">
-  <div class="metric-inner">
-    <span class="eyebrow reveal">// caso real · procesamiento diario de pedidos</span>
-    <div class="metric-row">
-      <div class="metric-block reveal">
-        <div class="metric-num" data-target="60" data-suffix=" min">0 min</div>
-        <div class="metric-label">antes</div>
-      </div>
-      <div class="metric-arrow reveal">→</div>
-      <div class="metric-block reveal">
-        <div class="metric-num metric-num--accent" data-target="5" data-suffix=" min">0 min</div>
-        <div class="metric-label">ahora</div>
-      </div>
-    </div>
-    <p class="metric-footnote reveal">Más de 90% menos tiempo, todos los días, en el mismo proceso.</p>
-  </div>
-</section>
-
-<!-- SECCIÓN 3 — STATEMENT -->
-<section class="s-statement">
-  <div class="statement-inner">
-    <p class="statement-text reveal">
-      Las empresas no tienen un problema de <span class="strike">IA</span>.<br>
-      Tienen un problema de <em>procesos</em>.
-    </p>
-    <ul class="statement-list reveal">
-      <li>Planillas</li>
-      <li>Copiar y pegar</li>
-      <li>Seguimiento manual</li>
-      <li>Errores</li>
-      <li>Información dispersa</li>
-    </ul>
-    <p class="statement-close reveal">La IA es una herramienta. El objetivo es eliminar fricción.</p>
-  </div>
-</section>
-
-<!-- SECCIÓN 4 — CASO LOGÍSTICA -->
-<section class="s-case s-case--01">
-  <div class="case-inner">
-    <span class="case-tag reveal">// caso 01 · ecommerce LATAM</span>
-    <h2 class="case-title reveal">Cada pedido pasaba<br>por una persona.</h2>
-    <p class="case-desc reveal">60 a 80 pedidos diarios. Cada uno requería relacionar a mano una etiqueta, un producto, un ID interno y su información logística. Más de una hora, todos los días, en un trabajo que no debería existir.</p>
-
-    <div class="case-diagram reveal">
-      <div class="diagram-col diagram-col--before">
-        <span class="diagram-col-label">antes</span>
-        <div class="diagram-chaos">
-          <span class="chip chip--1">ETQ-4471</span>
-          <span class="chip chip--2">SKU 88213</span>
-          <span class="chip chip--3">#ID-902</span>
-          <span class="chip chip--4">guía OCA</span>
-          <span class="chip chip--5">ETQ-4472</span>
-          <span class="chip chip--6">SKU 11029</span>
-          <span class="chip chip--7">#ID-903</span>
-          <span class="chip chip--8">guía Andreani</span>
+  <section class="hero" id="top">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-main">
+          <div class="hero-tag">
+            <span>[CORTEX]</span>
+            <span class="dot">·</span>
+            <span>CRM & AUTOMATIZACIÓN COMERCIAL</span>
+            <span class="dot">·</span>
+            <span>LATAM</span>
+          </div>
+          <h1 class="hero-headline">
+            <span class="line">El lead entra.</span>
+            <span class="line">Se asigna.</span>
+            <span class="line">Se sigue.</span>
+            <span class="line">Se cierra.</span>
+            <span class="line line-accent">O sabes por qué no.</span>
+          </h1>
+          <p class="hero-sub">
+            Implemento tu proceso comercial real en GoHighLevel — pipeline con etapas reales, WhatsApp integrado, automatizaciones de seguimiento e IA conversacional — para que ningún lead se enfríe por falta de respuesta.
+          </p>
+          <div class="hero-cta-row">
+            <a href="https://wa.me/5491123662563?text=Hola%20Nahuel%2C%20vi%20tu%20sitio%20y%20quiero%20hablar%20de%20mi%20proceso%20comercial" class="btn-primary" target="_blank" rel="noopener">
+              <span>Hablemos por WhatsApp</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+            </a>
+            <a href="#metodo" class="btn-secondary">
+              <span>Ver el método</span>
+              <span class="arrow">↓</span>
+            </a>
+          </div>
         </div>
+
+        <aside class="hero-meta">
+          <div class="meta-item">
+            <span class="meta-label">Operador</span>
+            <span class="meta-value">Nahuel · Argentina</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Foco</span>
+            <span class="meta-value">LATAM · Argentina</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Hago</span>
+            <span class="meta-value">CRM + automatización en GoHighLevel</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">No hago</span>
+            <span class="meta-value">Gestión de campañas de pauta</span>
+          </div>
+        </aside>
       </div>
-      <div class="diagram-mid">
-        <div class="diagram-mid-line"></div>
+
+      <div class="scroll-indicator">
+        <span class="scroll-label">Scroll</span>
+        <span class="scroll-line"></span>
       </div>
-      <div class="diagram-col diagram-col--after">
-        <span class="diagram-col-label">ahora</span>
-        <div class="diagram-flow">
-          <div class="flow-row">Pedido → etiqueta → guía · <span>match automático</span></div>
-          <div class="flow-row">Pedido → etiqueta → guía · <span>match automático</span></div>
-          <div class="flow-row">Pedido → etiqueta → guía · <span>match automático</span></div>
+    </div>
+  </section>
+
+  <section class="section" id="problema">
+    <div class="container">
+      <div class="section-grid">
+        <div class="section-meta" data-reveal>
+          <span class="section-tag">[01]</span>
+          <span class="section-tag-label">El problema</span>
+        </div>
+        <div class="section-content" data-reveal data-delay="1">
+          <h2 class="section-headline">
+            El lead entra.<br>El vendedor lo agrega a su WhatsApp personal.
+          </h2>
+          <div class="section-body">
+            <p>Pasan 48 horas. Nadie responde. El lead se enfría. Compra en otro lado.</p>
+            <p>Y esa conversación — esa venta — nunca existió para tu empresa.</p>
+            <p class="emphasis">Tampoco existió el dato que le dijo a Meta que ese anuncio trajo una venta. Así que sigues pagando por leads que se mueren en silencio.</p>
+            <p class="quote">No es un problema de Facebook. Es un problema de lo que pasa después del clic.</p>
+          </div>
         </div>
       </div>
     </div>
+  </section>
 
-    <p class="case-result reveal"><span class="case-result-num">+90%</span> menos tiempo operativo, sin agregar una sola persona al equipo.</p>
-  </div>
-</section>
-
-<!-- SECCIÓN 5 — CASO PRICING -->
-<section class="s-case s-case--02">
-  <div class="case-inner">
-    <span class="case-tag reveal">// caso 02 · Mercado Libre</span>
-    <h2 class="case-title reveal">Encontrar el precio<br>correcto, en segundos.</h2>
-    <p class="case-desc reveal">Un Google Sheet con SKU, título y precio objetivo. El sistema sale a buscar la competencia en Mercado Libre y devuelve el mejor precio, el link y la comparativa — sin abrir una sola pestaña a mano.</p>
-
-    <div class="pricing-demo reveal">
-      <div class="pricing-row pricing-row--head">
-        <span>SKU</span><span>título</span><span>precio objetivo</span><span>mejor competidor</span>
-      </div>
-      <div class="pricing-row">
-        <span>88213</span><span>Zapatilla running W12</span><span>$48.900</span><span class="win">$46.500 →</span>
-      </div>
-      <div class="pricing-row">
-        <span>11029</span><span>Mochila urbana 20L</span><span>$32.400</span><span class="win">$33.100 →</span>
-      </div>
-      <div class="pricing-row">
-        <span>90441</span><span>Auriculares BT Pro</span><span>$21.000</span><span class="win">$19.800 →</span>
-      </div>
-    </div>
-
-    <p class="case-result reveal">Oportunidades rentables detectadas <span class="case-result-num">antes</span> que la competencia las cierre.</p>
-  </div>
-</section>
-
-<!-- SECCIÓN 5.5 — QUÉ PUEDO CONSTRUIR -->
-<section class="s-help">
-  <div class="help-inner">
-    <span class="eyebrow reveal">// qué puedo construir para tu empresa</span>
-    <h2 class="help-title reveal">Encuentro el cuello de botella.<br>Construyo el sistema que lo saca del medio.</h2>
-    <div class="help-list">
-      <div class="help-row reveal">
-        <span class="help-row-num">01</span>
-        <div class="help-row-body">
-          <h3>Si un proceso se repite a mano todos los días</h3>
-          <p>Lo convierto en un sistema que corre solo — como el caso de logística: de 60 minutos diarios a 5.</p>
+  <section class="section" id="operador">
+    <div class="container">
+      <div class="section-grid">
+        <div class="section-meta" data-reveal>
+          <span class="section-tag">[02]</span>
+          <span class="section-tag-label">Operador</span>
         </div>
-      </div>
-      <div class="help-row reveal">
-        <span class="help-row-num">02</span>
-        <div class="help-row-body">
-          <h3>Si contestás los mismos mensajes de WhatsApp, uno por uno, todo el día</h3>
-          <p>Entreno un asistente con IA que responde como vos, al instante, las 24 horas — y te avisa solo cuando de verdad tiene que intervenir un humano.</p>
-        </div>
-      </div>
-      <div class="help-row reveal">
-        <span class="help-row-num">03</span>
-        <div class="help-row-body">
-          <h3>Si tus clientes se pierden entre WhatsApp, Excel e Instagram</h3>
-          <p>Construyo el sistema comercial que los sigue por vos, para que ningún interesado se enfríe por falta de seguimiento.</p>
+        <div class="section-content" data-reveal data-delay="1">
+          <h2 class="section-headline">No gestiono campañas. No administro pauta.<br>Trabajo donde termina la captación y empieza la conversión.</h2>
+          <div class="section-body">
+            <p>Me llamo Nahuel. Implemento CRM y automatización comercial en GoHighLevel para operaciones con ciclo de venta consultivo en LATAM — empresas B2B o B2C con flujo de leads y necesidad de seguimiento real.</p>
+            <p>Mi trabajo empieza cuando el lead ya tocó tu puerta y hay que evitar que se pierda. Lo convierto en sistema: pipeline, canales, automatizaciones, IA, medición.</p>
+            <ul class="funnel-principles">
+              <li>Estrategia de prospección inteligente: el embudo que diseña el recorrido perfecto del cliente.</li>
+              <li>Captación, activación y retención operando como un solo sistema, no como islas sueltas.</li>
+              <li>Lo que no se mide, no se optimiza. Y lo que no se automatiza, se pierde.</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- SECCIÓN 5.7 — PARA QUIÉN ES ESTO -->
-<section class="s-fit">
-  <div class="fit-inner">
-    <div class="fit-col reveal">
-      <span class="fit-label fit-label--yes">// es para vos si</span>
-      <ul class="fit-list">
-        <li>Un proceso repetitivo te está comiendo horas cada semana</li>
-        <li>Tomás decisiones con información dispersa o desactualizada</li>
-        <li>Tu equipo hace a mano algo que un sistema podría hacer mejor</li>
-      </ul>
+  <section class="section" id="metodo">
+    <div class="container">
+      <div class="section-grid">
+        <div class="section-meta" data-reveal>
+          <span class="section-tag">[03]</span>
+          <span class="section-tag-label">El método</span>
+        </div>
+        <div class="section-content" data-reveal data-delay="1">
+          <h2 class="section-headline">Método CORTEX — 3 capas.</h2>
+          <p class="section-intro">No es un checklist. Es un embudo. Cada capa alimenta a la siguiente, y si una falla, las de abajo no tienen nada que convertir.</p>
+          <ol class="steps">
+            <li class="step" data-reveal>
+              <div class="step-num">01</div>
+              <div class="step-body">
+                <h3 class="step-title">Captación inteligente</h3>
+                <p class="step-desc">Utilizamos IA para identificar prospectos de alto valor, alineados con tu mercado. Atraemos leads calificados con automatizaciones que complementan tus campañas de captación.</p>
+              </div>
+            </li>
+            <li class="step" data-reveal>
+              <div class="step-num">02</div>
+              <div class="step-body">
+                <h3 class="step-title">Activación automatizada</h3>
+                <p class="step-desc">Convertimos leads en clientes con secuencias de seguimiento omnicanal. Cada contacto se mantiene informado y comprometido para maximizar la conversión.</p>
+              </div>
+            </li>
+            <li class="step" data-reveal>
+              <div class="step-num">03</div>
+              <div class="step-body">
+                <h3 class="step-title">Retención estratégica</h3>
+                <p class="step-desc">Implementamos tácticas de fidelización a largo plazo. Fomentamos relaciones sólidas que multiplican el valor de cada cliente (upsell).</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
     </div>
-    <div class="fit-col reveal">
-      <span class="fit-label fit-label--no">// no es para vos si</span>
-      <ul class="fit-list">
-        <li>Buscás "un chatbot" sin tocar el proceso de fondo</li>
-        <li>Buscás que resuelva todo sin destinar ni un rato a contarme cómo trabaja tu equipo hoy</li>
-        <li>Buscás la opción más barata, no la más efectiva</li>
-      </ul>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span class="accent">PROCESO → CRM → AUTOMATIZACIÓN → MEDICIÓN</span>
+      <span>·</span>
+      <span>NUNCA AUTOMATIZAR ANTES DE ENTENDER</span>
+      <span>·</span>
+      <span class="accent">PROCESO → CRM → AUTOMATIZACIÓN → MEDICIÓN</span>
+      <span>·</span>
+      <span>NUNCA AUTOMATIZAR ANTES DE ENTENDER</span>
+      <span>·</span>
+      <span class="accent">PROCESO → CRM → AUTOMATIZACIÓN → MEDICIÓN</span>
+      <span>·</span>
+      <span>NUNCA AUTOMATIZAR ANTES DE ENTENDER</span>
+      <span>·</span>
     </div>
   </div>
-</section>
 
-<!-- SECCIÓN 6 — CÓMO PIENSO -->
-<section class="s-think">
-  <div class="think-inner">
-    <span class="eyebrow reveal">// cómo pienso</span>
-    <h2 class="think-title reveal">No vendo automatizaciones.<br>Resuelvo <em>cuellos de botella.</em></h2>
-    <div class="think-grid">
-      <p class="think-col reveal">No vendo chatbots ni herramientas sueltas. Uso lo que haga falta —sistemas, IA, automatización— para responder una sola pregunta: dónde se atasca tu operación.</p>
-      <p class="think-col reveal">Encuentro ese punto, mido cuánto cuesta en tiempo y errores, y construyo el sistema que lo elimina. La herramienta cambia según el problema. El método, no.</p>
+  <section class="section" id="resultados">
+    <div class="container">
+      <div class="section-grid">
+        <div class="section-meta" data-reveal>
+          <span class="section-tag">[04]</span>
+          <span class="section-tag-label">Resultados</span>
+        </div>
+        <div class="section-content" data-reveal data-delay="1">
+          <h2 class="section-headline">Lo que cambia cuando el proceso es sistema.</h2>
+          <p class="section-intro">Cliente real: operación de venta consultiva con setters y closers.</p>
+          <div class="results-grid">
+            <div class="result-card" data-reveal>
+              <div class="result-num">~65<span class="result-unit">%</span></div>
+              <div class="result-label">del pipeline automatizado<br>entradas · asignaciones · notificaciones</div>
+            </div>
+            <div class="result-card" data-reveal data-delay="1">
+              <div class="result-num">&lt;5<span class="result-unit">min</span></div>
+              <div class="result-label">primer seguimiento<br>desde que el lead entra</div>
+            </div>
+            <div class="result-card" data-reveal data-delay="2">
+              <div class="result-num">24/7</div>
+              <div class="result-label">IA conversacional<br>calificando leads</div>
+            </div>
+            <div class="result-card" data-reveal data-delay="3">
+              <div class="result-num">Meta<span class="result-unit">↺</span></div>
+              <div class="result-label">pauta optimizada con<br>ventas reales, no solo leads</div>
+            </div>
+          </div>
+          <p class="results-note">Más recordatorios automáticos → menos no-shows. Más visibilidad del pipeline → menos oportunidades en el aire.</p>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- SECCIÓN 7 — CTA -->
-<section class="s-cta">
-  <div class="cta-inner">
-    <h2 class="cta-title reveal">¿Qué proceso consume<br>más tiempo en tu empresa?</h2>
-    <p class="cta-sub reveal">Probablemente pueda automatizarse.</p>
-    <a href="https://wa.me/541123662563" target="_blank" class="cta-btn reveal">Hablemos por WhatsApp →</a>
-    <p class="cta-guarantee reveal">Primera conversación sin costo. Si no encuentro un proceso que valga la pena automatizar, te lo digo yo mismo.</p>
-  </div>
-</section>
+  <section class="section" id="filtro">
+    <div class="container">
+      <div class="section-grid">
+        <div class="section-meta" data-reveal>
+          <span class="section-tag">[05]</span>
+          <span class="section-tag-label">Filtro</span>
+        </div>
+        <div class="section-content" data-reveal data-delay="1">
+          <h2 class="section-headline">Para quién es esto.<br>Para quién no.</h2>
+          <div class="filter-grid">
+            <div class="filter-col">
+              <h3 class="filter-title">Es para vos si</h3>
+              <ul class="filter-list">
+                <li>Tienes equipo comercial o flujo de leads que requiere seguimiento — setters, closers, vendedores.</li>
+                <li>Tu venta es consultiva: ticket medio/alto, ciclo de decisión no inmediato (B2B o B2C).</li>
+                <li>Ya tienes leads entrando y los estás perdiendo por falta de seguimiento.</li>
+                <li>Quieres dejar de depender de la memoria de tu gente.</li>
+              </ul>
+            </div>
+            <div class="filter-col filter-col-no">
+              <h3 class="filter-title filter-title-no">No es para vos si</h3>
+              <ul class="filter-list filter-list-no">
+                <li>Buscas que te administren campañas de pauta — eso lo derivo a aliados.</li>
+                <li>Eres profesional o negocio sin estructura de ventas y sin intención de armarla.</li>
+                <li>Quieres "un CRM bonito" sin tocar tu proceso real.</li>
+                <li>Buscas captación sin infraestructura para activar lo que entra.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<footer>
-  <div class="footer-inner">
-    <span>PALANCA</span>
-    <span>© 2026</span>
+  <section class="section final-cta" id="hablemos">
+    <div class="container">
+      <div class="final-grid" data-reveal>
+        <span class="section-tag">[06] — Hablemos</span>
+        <h2 class="final-headline">
+          30 minutos por WhatsApp.<br>
+          <span class="final-accent">Sin formulario. Sin pitch. Sin compromiso.</span>
+        </h2>
+        <p class="final-sub">
+          Si tu proceso no necesita lo que hago, te lo digo en esos 30 minutos. No vendo implementaciones por vender.
+        </p>
+        <a href="https://wa.me/5491123662563?text=Hola%20Nahuel%2C%20vi%20tu%20sitio%20y%20quiero%20hablar%20de%20mi%20proceso%20comercial" class="btn-primary btn-large" target="_blank" rel="noopener">
+          <span>Iniciar conversación</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="brand-dot"></span>
+        <span>CORTEX</span>
+      </div>
+      <div class="footer-meta">
+        <span>Nahuel — Argentina</span>
+        <span>Operación LATAM · Argentina</span>
+        <span>CRM & automatización en GoHighLevel</span>
+      </div>
+      <div class="footer-copy">
+        <span id="year">2024</span> · Hecho a mano, sin plantillas.
+      </div>
+    </div>
   </div>
 </footer>
 
-<script src="script.js"></script>
+<script>
+  const reveals = document.querySelectorAll('[data-reveal]');
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+    reveals.forEach(el => observer.observe(el));
+  } else {
+    reveals.forEach(el => el.classList.add('in-view'));
+  }
+
+  const yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  if (window.matchMedia('(min-width: 1024px)').matches &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const heroMeta = document.querySelector('.hero-meta');
+    if (heroMeta) {
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            const y = window.scrollY;
+            if (y < 600) {
+              heroMeta.style.transform = `translateY(${y * -0.04}px)`;
+            }
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+    }
+  }
+</script>
+
 </body>
 </html>
